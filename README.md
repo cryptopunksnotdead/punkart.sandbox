@@ -3,7 +3,7 @@
 _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Projects & More in Austria • Östereich_
 
 
-## Initiative & Projects
+## Initiatives & Projects
 
 [**Awesome Austria**](https://github.com/awesomeaustria/awesome-austria) - A collection of awesome events (meetups, conferences, camps, etc.) from around Austria • Österreich
 
@@ -11,11 +11,11 @@ _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Proje
 
 [**Blockchain Austria • Blockkette Österreich**](https://blockchainaustria.github.io) - Revolutionize Austria one Block at a Time. Land der Berge! Land der Blockchain! - incl. (Crypto) Schilling on the Blockchain 
 
-[**world.db - Austria**](https://github.com/openmundi/austria.db) - Free open public domain data for Austria • Österreich / Europe incl. states (Bundesländer), cities, counties (Bezirke), etc.
+[**Austria @ world.db**](https://github.com/openmundi/austria.db) - Free open public domain data for Austria • Österreich / Europe incl. states (Bundesländer), cities, counties (Bezirke), etc.
 
-[**football.db - Austria**](https://github.com/openfootball/at-austria) - Free open public domain football data for Austria • Österreich incl. Österr. Bundesliga, Erste Liga, Regionalliga (Ost, Mitte, West), ÖFB Cup, etc.
+[**Austria @ football.db**](https://github.com/openfootball/at-austria) - Free open public domain football data for Austria • Österreich incl. Österr. Bundesliga, Erste Liga, Regionalliga (Ost, Mitte, West), ÖFB Cup, etc.
 
-[**beer.db - Austria**](https://github.com/openbeer/at-austria) -  Free open public domain beer, brewery n brewpub data for Austria • Österreich
+[**Austria @ beer.db**](https://github.com/openbeer/at-austria) -  Free open public domain beer, brewery n brewpub data for Austria • Österreich
 
 
 ## Archive
