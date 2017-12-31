@@ -1,4 +1,5 @@
-# Awesome Austria • Österreich Wahnsinn!
+# Austria Codes
+
 
 _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Projects & More in Austria • Östereich_
 
