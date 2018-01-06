@@ -6,7 +6,7 @@ _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Proje
 
 ## Initiatives & Projects
 
-[**Awesome Austria**](https://github.com/awesomeaustria/awesome-austria) - A collection of awesome events (meetups, conferences, camps, etc.) from around Austria • Österreich
+[**Awesome Austria**](https://github.com/austriacodes/awesome-austria) - A collection of awesome events (meetups, conferences, camps, etc.) from around Austria • Österreich
 
 [**Awesome Austria (Open Data Ed.) @ Planet Open Data**](https://github.com/planetopendata/awesome-austria) - A collection of awesome open data projects, blogs, news sites, etc. in Austria • Österreich
 
@@ -21,4 +21,4 @@ _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Proje
 
 ## Archive
 
-[**Vienna.html Meetup**](https://awesomeaustria.github.io/vienna.html) - Website Builder & Designer Meetup in Austria, Vienna • Wien
+[**Vienna.html Meetup**](https://austriacodes.github.io/vienna.html) - Website Builder & Designer Meetup in Austria, Vienna • Wien
