@@ -10,7 +10,7 @@ _News & Updates About Awesome (Open) Code & Data Meetups, (Un)conferences, Proje
 
 [**Awesome Austria (Open Data Ed.) @ Planet Open Data**](https://github.com/planetopendata/awesome-austria) - A collection of awesome open data projects, blogs, news sites, etc. in Austria • Österreich
 
-[**Blockchain Austria • Blockkette Österreich**](https://blockchainaustria.github.io) - Revolutionize Austria one Block at a Time. Land der Berge! Land der Blockchain! - incl. (Crypto) Schilling on the Blockchain 
+[**Blockchain Austria • Blockkette Österreich**](https://github.com/austriacodes/blockchain-austria) - Revolutionize Austria one Block at a Time. Land der Berge! Land der Blockchain! - incl. (Crypto) Schilling on the Blockchain 
 
 [**Austria @ world.db**](https://github.com/openmundi/austria.db) - Free open public domain data for Austria • Österreich / Europe incl. states (Bundesländer), cities, counties (Bezirke), etc.
 
