@@ -58,6 +58,11 @@ f = make_composite( '../punkart.blocks.hair/hair/f/*.png', base: base )
 f.save( "./tmp/orc_hair_f.png")
 f.zoom(4).save( "./tmp/orc_hair_f@4x.png")
 
+base = Punk::Image.generate( 'Female3', 'Clown Nose' )    
+f = make_composite( '../punkart.blocks.hair/hair/f/*.png', base: base )
+f.save( "./tmp/female3_hair_f.png")
+f.zoom(4).save( "./tmp/female3_hair_f@4x.png")
+
 
 ####
 # basic
