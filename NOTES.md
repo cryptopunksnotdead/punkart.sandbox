@@ -1,6 +1,114 @@
 
 Hair Colors
 
+
+note: use blue for base 
+- base               -> #0000ff (0 0 255)   - hsv(240° 100% 100%)
+- lighter (+16%)     -> #2a2aff (42 42 255) - hsv(240°  83% 100%)
+- darker  (+4%/-14%) -> #0000dd (0 0 211)   - hsv(240° 100%  86%)
+compare to black for base
+- base           -> #000000 (0 0 0)      hsv(0°  0% 0%)
+- lighter (+16%) -> #2a2a2a( 42  42  42) hsv(0°  0% 16%)  - 8-BIT GRAYSCALE #42
+
+
+mohawk darker
+base  #a66e2c / rgb(166 110  44) - hsv( 32°  73%  65%)
+darker #85561e / rgb(133  86  30)  - hsv( 33°  77%  52%)  
+ - saturation +4%
+ - value/brightness -13%
+ 
+
+Darker variations:
+
+Brightness decreases
+Saturation increases
+Hue (often) shifts towards a luminosity minimum (red, green, or blue)
+Red is 0° - Red is also 360°, which is the exact same as 0°
+Green is 120°
+Blue is 240°
+
+Lighter variations:
+
+Brightness increases
+Saturation decreases
+Hue (often) shifts towards a luminosity maximum
+
+
+hsv == hsb (v==b value==brightness)
+check tiny color (js lib) source
+->
+lighten    / darken   -  +/-  v(alue or brightness) - hsv[2] - ???
+desaturate / saturate  - +/-  s(aturation)          hsv[1] - ???  
+
+this graph has three maximum points and three minimum points. The low-points are red, green, and blue. The high-points are cyan, magenta, and yellow.
+
+Does these particular colors ring a bell? Yes. RGB and CMY are popular color systems, but ignore that for now, because it’s leading you astray.
+
+The important bit is this: if you don’t count saturation and brightness, shifting hue towards red (0°), green (120°), or blue (240°) will decrease the luminosity, or perceived lightness of the color. And shifting the hue towards yellow (60°), cyan (180°), or magenta (300°) will increase the perceived lightness of the color.
+
+The trick is to just make the movement of the hue match up with the movement of the saturation and brightness. If you want a darker variation, move the hue towards red (0°), green (120°), or blue (240°), whichever is closest — and vice versa (with cyan, magenta, and yellow) for lighter variations. (Of course, this assumes you’re also lowering brightness and increasing saturation)
+
+intensity of the light (brightness)
+intensity of color (saturation)
+
+- Darker color variation = higher saturation + lower brightness
+- Lighter Color Variation = lower saturation + higher brightness
+
+Saturation = "Richness"
+Saturation is a number between 0 and 100. So, no matter what hue you've picked, a saturation of 100% will be the richest possible version of that color and a saturation of 0% will be the gray version of that color (i.e. if the color is light, it'll be a light gray; if the color is dark, it'll be a dark gray).
+
+Brightness
+Brightness is a number between 0 and 100. Like saturation, it's sometimes written as a percentage. This one is fairly obvious as to what it means, but there’s a quick catch.
+
+0% brightness is black, no matter the hue, no matter the saturation.
+100% brightness is white only if saturation is also 0%. Otherwise, 100% brightness is just a... very bright color.
+
+In HSB, here’s how we make black and white:
+
+Black: set the brightness to 0%. Hue and saturation can be anything.
+White: set the brightness to 100% and the saturation to 0%. Hue can still be anything.
+
+To add white, you must move your color towards white on your color picker. White is in the upper-left corner, and sure enough, 
+adding white involves decreasing saturation (moving left) and increasing brightness (moving up).
+
+But adding black? Well, since black is the whole bottom side of the color picker rectangle, adding black is just decreasing brightness. Saturation doesn’t matter.
+
+big kicker. Instead of adding black, I want you to remove white. In other words, simulataneously:
+
+Increase saturation
+Decrease brightness
+
+this will give you much richer dark shades
+Removing white – that is, making your darker shades richer – is the "correct" way to generate darker variations of a color 95%+ of the time.
+
+Since color variations in the real world involve removing white (not simply adding black), HSB is a slightly more intuitive system to work with for UI design.
+
+---
+Are HSB and HSL the same thing? Short answer: no. But they’re very similar.
+
+HSL is exactly like HSB, except black and white are actually opposites.
+So, in HSL:
+
+To get black, set lightness to 0% (doesn’t matter what hue or saturation are)
+To get white, set lightness to 100% (doesn’t matter what hue or saturation are)
+Now that’s well and good, but as soon as you try and describe intuitively how to translate between the two systems, things get messy.
+
+Adding HSL lightness above 50% is the same as adding white (meaning the equivalent HSB saturation goes down and HSB brightness goes up)
+Subtracting HSL lightness below 50% is the same as adding black (no effect on HSB saturation, but HSB brightness goes down).
+Or another way to think of it:
+
+In HSB, the opposite of adding white is removing white
+In HSL, the opposite of adding white is adding black
+
+
+---
+
+source: https://www.learnui.design/blog/the-hsb-color-system-practicioners-primer.html
+
+
+
+
+
 ```
 ==> f/clownhairgreen - 24x24
 [0]  #28b143 / rgb( 40 177  67) - hsl(132°  63%  43%) - hsv(132°  77%  69%)
