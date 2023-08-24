@@ -40,6 +40,8 @@ def make_composite( glob, zoom: 8, name: nil,
 end
 
 
+=begin
+
 base = Punk::Image.generate( 'Ghost'  )    
 m = make_composite( '../punkart.blocks.hair/hair/m/*.png', 
                         base: base,
@@ -92,12 +94,20 @@ f = make_composite( '../punkart.blocks.hair/basic/f/*.png',
 f.save( "./tmp/basic_f.png")
 f.zoom(4).save( "./tmp/basic_f@4x.png")
 
-
+=end
 
 ###
-# beards - basic
+# beards 
 base = Punk::Image.generate( 'Ghost'  )    
 m = make_composite( '../punkart.blocks.hair/beard/*.png', 
+                                  base: base,
+                                  name: ->(name) { "beard_#{name}" } )
+m.save( "./tmp/beard.png")
+m.zoom(4).save( "./tmp/beard@4x.png")
+
+
+base = Punk::Image.generate( 'Ghost'  )    
+m = make_composite( '../punkart.blocks.hair/beard-basic/*.png', 
                                   base: base,
                                   name: ->(name) { "beardbasic_#{name}" } )
 m.save( "./tmp/beardbasic.png")

@@ -31,6 +31,14 @@ end
 
 
 
+## todo:
+##  generate wheel 
+#  0 (red==360), 30, 60, 90,
+#  120 (green), 150, 180, 210,
+#  240 (blue), 270, 300, 330
+
+
+
 puts "bye"
 
 __END__

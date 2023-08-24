@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift( "../cryptopunks/lib" )
-require 'cryptopunks'
+require 'punks'
 
 
 #########
@@ -17,8 +16,8 @@ require 'cryptopunks'
 
 
 
-def dump_colors( img )
-  img.pixels.uniq.each_with_index do |color, i|
+def dump_colors( colors )
+  colors.each_with_index do |color, i|
     print "[#{i}]  "
     print   Color.format( color )
     print "\n"
@@ -27,43 +26,71 @@ end
 
 
 
-
-hair = Image.read( "./f/frumpy.png" )
-puts "f/frumpy:"
-dump_colors ( hair )
-
-
 colors = {
   'black'  => '000000',
-  'brown'     => '431904',
 
+  'brown'     => '51360c',   # (darker) brown
+  'brunette'  => 'a66e2c',   # lighter brown
+
+  'orange'  => 'e65700',
+  'red'     => 'e22626',
+  'pink'    => 'ff8ebe',
+  'purple'  => '710cc7',
+
+  'green'   => '28b143',
+
+  'blonde' => 'fff68e',
+  'silver' => 'e0e0e0',
+  'white'  => 'FFFFFF',
+}.reduce( {} ) do |h, (name, color_hex)|
+  h[ name ] = Color.from_hex( color_hex )
+  h
+end
+
+
+
+more_colors = {
   'darkred'   => '6B0004',
-  'orange'    => 'D22B0A',
-  'red'        => 'F6000B',
-  'pink'       => 'FC4C50',
-
-  'purple'    => '6B006D',
-  'blue'      => '0000FF',
   'periwinkle' => '5248FF',
   'lightblue'  => '57C0FF',
   'lightgreen' => '5BFFC1',
-  'green'     => '157004',
   'teal'      => '146E6D',
 
-  'blonde' => 'FFFF54',
-  'silver' => 'E0E0E0',
-  'white'  => 'FFFFFF',
-}.reduce( {} ) do |h, (name, color_hex)|
-      h[ name ] = Color.from_hex( color_hex )
-      h
-end
-
+}
 
 
 colors.each do |name, color|
   puts "  #{name}  - #{Color.format( color )}"
 end
 
+
+def collect_colors( glob )
+  colors = {}
+
+  files = Dir.glob( glob )
+  files.each do |file|
+    basedir  = File.basename( File.dirname( file ))  ## e.g. f or m or such expected
+    basename = File.basename( file, File.extname( file ))
+  
+    basehair = Image.read( file )
+  
+    basehair.pixels.uniq.each do |color|
+      h,s,v = Color.to_hsv( color, include_alpha: false )
+      h = h % 360    ## make sure h(ue) is always positive!!!
+
+      if h == 240  ## blue - assume slot color
+         colors[color] ||= 0
+         colors[color] += 1
+
+         if color != 0x0000ffff  ## blue
+            puts "   #{Color.to_hex(color)} used in #{basedir}/#{basename}"
+         end
+      end
+    end
+  end
+
+  colors
+end
 
 
 def colorize( glob, colors: )
@@ -73,18 +100,56 @@ files.each do |file|
   basedir  = File.basename( File.dirname( file ))  ## e.g. f or m or such expected
   basename = File.basename( file, File.extname( file ))
 
-  basehair = Image.read( file )
+  ## exclude/skip all alpha only (no colors)
+  next if ['shavedhead'].include?( basename )
 
+
+  basehair = Image.read( file )
+  
+ 
   colors.each do |name, color|
     puts "==> #{name} - #{Color.format( color )}:"
 
-    h,s,l = Color.to_hsl( color, include_alpha: false )
+    h,s,v = Color.to_hsv( color, include_alpha: false )
     h = h % 360    ## make sure h(ue) is always positive!!!
-    puts "    #{[h,s,l].inspect}"
+    puts "    #{[h,s,v].inspect}"
+
+      # lighter  - #2a2aff / rgb( 42  42 255) - hsl(240° 100%  58%) - hsv(240°  84% 100%)
+      #   - used in hair( frumpy, f/pigtails3, f/straight3, f/wild4, f/wild5 )
+
+      # lightest -  #5454ff / rgb( 84  84 255) - hsl(240° 100%  66%) - hsv(240°  67% 100%)
+      #  - used in hair(mohawk thin)
+
+      # darker   - #0000dd / rgb(  0   0 221) - hsl(240° 100%  43%) - hsv(240° 100%  87%)
+      #  - used in hair(mohawk)
+
+      ## todo/fix: make lighter/darker formula more "robust"/ better!!!
+    if color == 0x000000ff   # black
+      # hsv(  0°   0%   0%)
+      lighter =  Color.from_hsv( h, 0.0, 0.16 )
+      lightest = Color.from_hsv( h, 0.0, 0.33 )
+      darker   = Color.from_hsv( h, 0.0, 0.0 )  ## darker than black not possible ;-)
+    elsif color == 0xe0e0e0ff   # silver
+     #  hsv(  0°   0%  88%)
+      lighter =  Color.from_hsv( h, 0.0, 1.0 )  # white
+      lightest = Color.from_hsv( h, 0.0, 1.0 )  # white
+      darker   = Color.from_hsv( h, 0.0, [0.0, v-0.13].max )
+    elsif color == 0xffffffff   # white
+     #  hsv(  0°   0% 100%)
+       lighter =  Color.from_hsv( h, 0.0, [0.0, v-0.11].max )  # note: make darker
+       lightest = Color.from_hsv( h, 0.0, 1.0 )
+       darker   = Color.from_hsv( h, 0.0, [0.0, v-0.16].max )   
+    else
+      lighter =  Color.from_hsv( h, [0.0, s-0.16].max, v )
+      lightest = Color.from_hsv( h, [0.0, s-0.33].max, v )
+      darker   = Color.from_hsv( h, s, [0.0, v-0.13].max )
+    end
 
     hair = basehair.change_colors( {
-             '000000ff' => color,
-             '2a2a2aff' => Color.from_hsl( h, [1.0, s].min, [1.0, l+0.16].min ),
+             '0000ffff' => color,
+             '2a2affff' => lighter,
+             '5454ffff' => lightest, 
+             '0000ddff' => darker,
           })
     hair.save( "./tmp/#{basedir}/#{name}/#{basename}.png" )
     hair.zoom(4).save( "./tmp/4x/#{basename}_(#{basedir})_#{name}@4x.png" )
@@ -93,8 +158,20 @@ end
 end
 
 
-colorize( './f/*.png', colors: colors )
-colorize( './m/*.png', colors: colors )
+slots =  collect_colors( '../punkart.blocks.hair/hair/{f,m}/*.png' )
+pp slots
+## => {65535=>83, 707461119=>6, 56831=>2, 1414856703=>2}
+# [0]  #0000ff / rgb(  0   0 255) - hsl(240° 100%  50%) - hsv(240° 100% 100%)
+# [1]  #2a2aff / rgb( 42  42 255) - hsl(240° 100%  58%) - hsv(240°  84% 100%)
+# [2]  #0000dd / rgb(  0   0 221) - hsl(240° 100%  43%) - hsv(240° 100%  87%)
+# [3]  #5454ff / rgb( 84  84 255) - hsl(240° 100%  66%) - hsv(240°  67% 100%)
+
+
+dump_colors( slots.keys )
+
+
+# colorize( '../punkart.blocks.hair/hair/f/*.png', colors: colors )
+# colorize( '../punkart.blocks.hair/hair/m/*.png', colors: colors )
 
 
 
@@ -102,56 +179,80 @@ colorize( './m/*.png', colors: colors )
 styles = {
  'Afro'        => %w[m f],
  'Big'         => %w[m f],
- 'Bob'         => %w[f],
+ 'Bob'         => { 'm' =>  ['','2'],
+                    'f' =>  ['','2', '3'] },
  'Buzz Cut'    => %w[m f],
- 'Clown'       => %w[m f],
- 'Crazy'       => %w[m f],
- 'Faux Hawk'   => %w[m],
+ 'Clown'       => { 'm' =>  [''],
+                    'f' =>  ['','2'] },
+ 'Comma'       => %w[m],
+ 'Crazy'       => { 'm' =>  ['','2', '3'],
+                    'f' =>  ['','2', '3'] },
+ 'Fringe Up'      => %w[m],
  'Frumpy'      => %w[m f],
- 'Half Shaved' => %w[f],
-
+ 'Half Shaved' => { 'm' =>  ['','2'],
+                    'f' =>  ['','2', '3'] },
  'Heart'      => %w[f],
  'Long'       => %w[m],
  'Long Curly' => %w[f],
+ 'Long Front Curly' => %w[m],
+ 'Messier'      => %w[m],
  'Messy'      => %w[m f],
- 'Mohawk'     => %w[m f],
- 'Peak Spike' => %w[m],
- 'Pigtails'   => %w[f],
+ 'Mohawk'     => { 'm' =>  ['','2'],
+                   'f' =>  ['','2'] },
+ 'Mohawk Big'   => %w[m],
+ 'Mohawk Short'   => %w[m],
+ 'Mohawk Thin'   => %w[m f],
+ 'Old Man' => %w[m],
+ 'Peak Spike' => { 'm' =>  [''],
+                   'f' =>  ['','2'] },
+ 'Pigtails'   => { 'm' =>  [''],
+                   'f' =>  ['','2','3'] },
  'Pixie'      => %w[f],
- 'Short'      => %w[m f],
- 'Side'       => %w[f],
- 'Straight 1' => %w[f],
- 'Straight 2' => %w[f],
-
+ 'Pompadour'  => %w[m],
+ 'Short'      => { 'm' =>  ['','2','3'],
+                   'f' =>  ['','2'] },
+ 'Short Messy'   => %w[m],
+ 'Side'       => { 'm' =>  ['','2'],
+                    'f' =>  ['','2'] },
+ 'Spiky'      => %w[f],
+ 'Straight' => { 'm' =>  [''],
+                 'f' =>  ['','2','3'] },
  'Stringy'      => %w[m f],
- "Widow's Peak" => %w[m],
- 'Wild 1'       => %w[m f],  ## was Wild Blonde in basic
- 'Wild 2'       => %w[f],    ## was Wild Hair in basic
- 'Wild 3'       => %w[f],    ## was Wild White Hair in basic
-
- 'Style 1'      => %w[m f],  ## was Purple Hair in basic
- 'Style 2'      => %w[f],    ## was Blonde Bob in basic
- 'Style 3'      => %w[f],    ## was Dark Hair in basic
+ 'Vampire'     => { 'm' =>  ['','2'],
+                    'f' =>  ['','2'] },
+ 'Wild'        => { 'm' =>  ['','2', '3', '4', '5'],
+                    'f' =>  ['','2', '3', '4', '5'] },
 }
 
 
-styles.each do |name, variants|
+styles.each do |name, spec|
 
-  slug = name.downcase.gsub( /[ '-]/, '' ).strip
+  slug = name.downcase.gsub( /[ -]/, '' ).strip
+
+  ## shortcut; auto-convert array to hash
+  spec =  spec.reduce( {} ) { |h,value| h[value] = ['']; h }  if spec.is_a?( Array )
+          
+  ## pp spec
+  genders = spec.keys
+
 
   print "#{name} "
-  print "(#{variants.join('/')}) "
-  variants.each do |variant|
-    print " ![](hair/#{variant}/black/#{slug}.png)"
+  print "(#{genders.join('/')}) "
+  spec.each do |gender, variants|
+    variants.each do |variant|
+      print " ![](morehair/#{gender}/black/#{slug}#{variant}.png)"
+    end
   end
   print "\n\n"
 
-  variants.each do |variant|
-    colors.each do |color_name, _|
-      next if color_name == 'black'
-      puts "  ![](hair/#{variant}/#{color_name}/#{slug}.png)"
+  spec.each do |gender, variants|
+    variants.each do |variant|
+      colors.each do |color_name, _|
+        next if color_name == 'black'
+        puts "  ![](morehair/#{gender}/#{color_name}/#{slug}#{variant}.png)"
+      end
+      puts "  <br>"
     end
-    puts "  <br>"
   end
   puts "\n\n"
 end
@@ -159,30 +260,3 @@ end
 
 
 puts "bye"
-
-__END__
-
-
-f/frumpy:
-[0]  #000000 / rgb(  0   0   0) - hsl(  0°   0%   0%) - α(  0%) - TRANSPARENT
-[1]  #000000 / rgb(  0   0   0) - hsl(  0°   0%   0%)           - BLACK
-[2]  #2a2a2a / rgb( 42  42  42) - hsl(  0°   0%  16%)           - 8-BIT GRAYSCALE #42
-
-
-
-blonde      - #ffff54 / rgb(255 255  84) - hsl( 60° 100%  66%)
-orange      - #d22b0a / rgb(210  43  10) - hsl( 10°  91%  43%)
-brown       - #431904 / rgb( 67  25   4) - hsl( 20°  89%  14%)
-lightblue   - #57c0ff / rgb( 87 192 255) - hsl(203° 100%  67%)
-pink        - #fc4c50 / rgb(252  76  80) - hsl(359°  97%  64%)
-lightgreen  - #5bffc1 / rgb( 91 255 193) - hsl(157° 100%  68%)
-red         - #f6000b / rgb(246   0  11) - hsl(357° 100%  48%)
-periwinkle  - #5248ff / rgb( 82  72 255) - hsl(243° 100%  64%)
-purple      - #6b006d / rgb(107   0 109) - hsl(299° 100%  21%)
-blue        - #0000ff / rgb(  0   0 255) - hsl(240° 100%  50%)
-darkred     - #6b0004 / rgb(107   0   4) - hsl(358° 100%  21%)
-green       - #157004 / rgb( 21 112   4) - hsl(111°  93%  23%)
-teal        - #146e6d / rgb( 20 110 109) - hsl(179°  69%  25%)
-silver      - #e0e0e0 / rgb(224 224 224) - hsl(  0°   0%  88%)           - 8-BIT GRAYSCALE #224
-black       - #000000 / rgb(  0   0   0) - hsl(  0°   0%   0%)           - BLACK
-white       - #ffffff / rgb(255 255 255) - hsl(  0°   0% 100%)           - WHITE
