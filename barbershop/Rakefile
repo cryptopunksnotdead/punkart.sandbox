@@ -1,0 +1,40 @@
+require 'hoe'
+require './lib/barbershop/version.rb'
+
+
+###
+# hack/ quick fix for broken intuit_values - overwrite with dummy
+# class Hoe
+#  def intuit_values( input ); end
+# end
+
+
+Hoe.spec 'barbershop' do
+
+  self.version = Pixelart::Module::Barbershop::VERSION
+
+  self.summary = 'barberhsop gem - make your own (pixel) punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/cryptopunksnotdead/punkart.sandbox' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['pixelart'],
+    ['spritesheet'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+
+end
+
