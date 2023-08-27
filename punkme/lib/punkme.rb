@@ -1,5 +1,10 @@
 ## 3rd party
-require 'punks'
+require 'punkmaker'
+require 'barbershop'   ## men's hair styles & more
+require 'hairsalon'    ## women's hair styles & more
+
+require 'punks'   ## more accessories
+
 
 
 ## our own code
@@ -9,43 +14,10 @@ require_relative 'punkme/version'    # note: let version always go first
 
 module Punkme
 
-  WHITE         = 0xffffffff   ## note: 0xffffff (+ff) for alpha (transparency) channel
   SKINTONE_DARK = 0x713f1dff
-
-  BASE_M = Punk::Sheet.find_by( name: 'Male 4' )
-  BASE_F = Punk::Sheet.find_by( name: 'Female 4' )
 
 
 class Image < Pixelart::Image
-
-  ## change to name skintone_palette - why? why not?
-  def self.derive_skintone_colors( base )
-      hsl  = Color.to_hsl( base )
-      pp hsl
-
-      h, s, l = hsl
-      h = h % 360   # make always positive (might be -50 or such)
-      pp [h,s,l]
-
-      darker   = Color.from_hsl(
-        h,
-        [0.0, s-0.05].max,
-        [0.14, l-0.1].max)
-
-      ## sub one degree on hue on color wheel (plus +10% on lightness??)
-      darkest = Color.from_hsl(
-                     (h-1) % 360,
-                     s,
-                     [0.05, l-0.1].max)
-
-
-      lighter = Color.from_hsl(
-                      (h+1) % 360,
-                      s,
-                      [1.0, l+0.1].min)
-
-      [base, lighter, darkest, darker]
-  end  # method self.derive_skintone_colors
 
 
   ## change/rename generate to make - why? why not?
@@ -53,50 +25,53 @@ class Image < Pixelart::Image
   ##
   ##  names (attributes) MUST go first -
   ##   check if possible after keyword args ???
-  def self.generate( *names,
+  def self.generate( 
                       skintone: SKINTONE_DARK,
                        gender:  'm' )
 
       skintone = Color.parse( skintone )  unless skintone.is_a?( Integer )
 
-      skintone_base,
-      skintone_lighter,
-      skintone_darkest,
-      skintone_darker    = derive_skintone_colors( skintone )
-
-      color_map = {
-         '#ead9d9'  =>   skintone_base,
-         '#ffffff'  =>   skintone_lighter,
-         '#a58d8d'  =>   skintone_darkest,
-         '#c9b2b2'  =>   skintone_darker
-      }
+      punk = if gender == 'm'
+                Punk::Human.make( skintone, gender: 'm' )
+             else  ## assume f/female
+                Punk::Human.make( skintone, gender: 'f' )
+             end
+      ## wrap as Punkme image (keeps metadata) - why? why not?
+      new( punk.image, gender: gender,
+                       skintone: skintone )
+  end   # method self.generate
 
 
-      if gender == 'm'
-         punk = BASE_M.change_colors( color_map )
-         punk[10,12] = WHITE     # left eye dark-ish pixel to white
-         punk[15,12] = WHITE     # right eye ---
-         punk
-      else  ## assume f/female
-        ## for female - change lips to all black (like in male for now) - why? why not?
-        color_map[ '#711010' ] = '#000000'
-        punk = BASE_F.change_colors( color_map )
-        punk[10,13] = WHITE     # left eye dark-ish pixel to white
-        punk[15,13] = WHITE     # right eye ---
-        punk
-      end
+  attr_reader :gender,
+              :skintone,
+              :accessories
+
+  def initialize( img, gender:, 
+                       skintone: nil )
+     @gender   = gender
+     @skintone = skintone
+     @accessories = []
+     super( nil, nil, img )  ### fix Image#initialze to accept "raw" image only
+  end
+
+  def add( *names )      
+      punk = Image.new( Pixelart::Image.new( width, height ).image,   
+                         gender: @gender,
+                         skintone: @skintone )
+      punk.compose!( self ) ## add ourselves (that is, base punk) here
 
       ## add (optional) attributes
       names.each do |name|
         img = if gender == 'm'
-                 Punk::Sheet.find_by( name: name, gender: 'm', size: 'l' )
+                Punk::Sheet.find_by( name: name, gender: 'm', size: 'l' )
               else
-                 Punk::Sheet.find_by( name: name, gender: 'f', size: 's' )
-              end
+                Punk::Sheet.find_by( name: name, gender: 'f', size: 's' )
+             end
          punk.compose!( img )
+         @accessories << name
       end
       punk
-  end   # method self.generate
+  end
 end # class Image
 end # module Punkme
 

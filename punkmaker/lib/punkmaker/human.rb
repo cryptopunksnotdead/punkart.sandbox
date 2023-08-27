@@ -40,6 +40,13 @@ module Human   ## make it a class - why? why not?
   end
 
 
+  ##
+  ## todo/check:
+  ##  add a derive_colors or dervice_skintones  method - why? why not?
+  ##    - change to name skintone_palette - why? why not?
+  ## def self.derive_skintone_colors( color  or base )  ???
+
+
   def self.derive_color_map( color )
       color = Color.parse( color )  if color.is_a?( String )
 

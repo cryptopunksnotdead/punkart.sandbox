@@ -1,0 +1,42 @@
+require 'hoe'
+require './lib/punkme/version.rb'
+
+
+###
+# hack/ quick fix for broken intuit_values - overwrite with dummy
+# class Hoe
+#  def intuit_values( input ); end
+# end
+
+
+Hoe.spec 'punkme' do
+
+  self.version = Pixelart::Module::Punkme::VERSION
+
+  self.summary = 'punkme gem - generate your own (pixel) punk characters / heads - using your own skintone, eye color, hair & hair color, and much more'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/cryptopunksnotdead/punkart.sandbox' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['punkmaker'],
+    ['barbershop'],
+    ['hairsalon'],
+    ['punks'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+
+end
+
