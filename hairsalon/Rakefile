@@ -1,5 +1,5 @@
 require 'hoe'
-require './lib/barbershop/version.rb'
+require './lib/hairsalon/version.rb'
 
 
 ###
@@ -9,11 +9,11 @@ require './lib/barbershop/version.rb'
 # end
 
 
-Hoe.spec 'barbershop' do
+Hoe.spec 'hairsalon' do
 
-  self.version = Pixelart::Module::Barbershop::VERSION
+  self.version = Pixelart::Module::Hairsalon::VERSION
 
-  self.summary = "barberhsop gem - make your own (pixel) men's punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more"
+  self.summary = "hairsalon gem - make your own (pixel) women's punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more"
   self.description = summary
 
   self.urls    = { home: 'https://github.com/cryptopunksnotdead/punkart.sandbox' }

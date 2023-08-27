@@ -1,0 +1,8 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+config/spritesheet-hair.csv
+config/spritesheet-hair.png
+lib/hairsalon.rb
+lib/hairsalon/version.rb

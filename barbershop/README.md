@@ -1,6 +1,6 @@
 # barbershop
 
-barberhsop gem - make your own (pixel) punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more  
+barberhsop gem - make your own (pixel) men's punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more  
 
 
 

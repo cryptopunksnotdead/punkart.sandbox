@@ -1,6 +1,6 @@
 # hairsalon
 
-hairsalon gem - make your own (pixel) punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more  
+hairsalon gem - make your own (pixel) women's punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more  
 
 
 
