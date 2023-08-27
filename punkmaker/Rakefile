@@ -1,5 +1,5 @@
 require 'hoe'
-require './lib/barbershop/version.rb'
+require './lib/punkmaker/version.rb'
 
 
 ###
@@ -9,11 +9,11 @@ require './lib/barbershop/version.rb'
 # end
 
 
-Hoe.spec 'barbershop' do
+Hoe.spec 'punkmaker' do
 
-  self.version = Pixelart::Module::Barbershop::VERSION
+  self.version = Pixelart::Module::Punkmaker::VERSION
 
-  self.summary = 'barberhsop gem - make your own (pixel) punk hair style incl. mohawk, wild & crazy, short & long, and much more with your own hair colors incl white, silver, blonde, pink, purple, red and much more'
+  self.summary = 'punkmaker gem - make your own (pixel) punk base (archetype) heads incl. humans, zombies, apes, aliens, mummies, robots, and much more'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/cryptopunksnotdead/punkart.sandbox' }
@@ -26,7 +26,8 @@ Hoe.spec 'barbershop' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['punkmaker'],
+    ['pixelart'],
+    ['spritesheet'],
   ]
 
   self.licenses = ['Public Domain']

@@ -4,6 +4,7 @@
 #  $  ruby -I ./lib sandbox/test_page.rb
 
 
+$LOAD_PATH.unshift( "../punkmaker/lib" )
 require 'barbershop'
 
 colors = Barbershop::Hair.colors
@@ -56,12 +57,12 @@ puts
 
 __END__
 
-hair   =  Barbershop::Hair.find_by( name: 'Afro' )
+hair   =  Barbershop::Hair.sheet.find_by( name: 'Afro' )
 hair.save( "./tmp/afro.png" )
 hair.zoom(4).save( "./tmp/afro@4x.png" )
 
 
-hair =  Barbershop::Hair.find_by( name: 'Buzz Cut' )
+hair =  Barbershop::Hair.sheet.find_by( name: 'Buzz Cut' )
 hair.save( "./tmp/buzzcut.png" )
 hair.zoom(4).save( "./tmp/buzzcut@4x.png" )
 

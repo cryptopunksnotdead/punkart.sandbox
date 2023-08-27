@@ -1,8 +1,8 @@
 module Pixelart
   module Module
-module Barbershop
+module Punkmaker
   MAJOR = 0
-  MINOR = 1
+  MINOR = 2
   PATCH = 0
   VERSION = [MAJOR,MINOR,PATCH].join('.')
 
@@ -11,14 +11,14 @@ module Barbershop
   end
 
   def self.banner
-    "barbershop/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
+    "punkmaker/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
   end
 
   def self.root
     File.expand_path( File.dirname(File.dirname(File.dirname(__FILE__))) )
   end
 
-end # module Barbershop
+end # module Punkmaker
 end # module Module
 end # module Pixelart
 
