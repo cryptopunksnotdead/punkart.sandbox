@@ -27,7 +27,9 @@ class Image < Pixelart::Image
   ##   check if possible after keyword args ???
   def self.generate( 
                       skintone: SKINTONE_DARK,
-                       gender:  'm' )
+                       gender:  'm',
+                       hair: nil,
+                       hair_color: nil )
 
       skintone = Color.parse( skintone )  unless skintone.is_a?( Integer )
 
@@ -36,9 +38,22 @@ class Image < Pixelart::Image
              else  ## assume f/female
                 Punk::Human.make( skintone, gender: 'f' )
              end
+
+      if hair
+          hair_color = 'black'  if hair_color.nil? 
+         img =  if gender == 'm'
+                      Barbershop::Hair.make( hair, color: hair_color )
+                else   ## assume f/female
+                      Hairsalon::Hair.make( hair, color: hair_color )
+                end
+          punk.compose!( img )
+      end
+
       ## wrap as Punkme image (keeps metadata) - why? why not?
       new( punk.image, gender: gender,
-                       skintone: skintone )
+                       skintone: skintone,
+                       hair: hair,
+                       hair_color: hair_color )
   end   # method self.generate
 
 
@@ -47,9 +62,14 @@ class Image < Pixelart::Image
               :accessories
 
   def initialize( img, gender:, 
-                       skintone: nil )
-     @gender   = gender
-     @skintone = skintone
+                       skintone: nil,
+                       hair: nil,
+                       hair_color: nil )
+     @gender     = gender
+     @skintone   = skintone
+     @hair       = hair
+     @hair_color = hair_color
+
      @accessories = []
      super( nil, nil, img )  ### fix Image#initialze to accept "raw" image only
   end
