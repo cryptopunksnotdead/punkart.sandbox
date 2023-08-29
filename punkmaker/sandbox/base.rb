@@ -5,6 +5,19 @@
 
 require 'punks'
 
+###
+# aliens
+base_m = Punk::Sheet.find_by( name: 'Alien' )
+base_m.save( "./tmp2/alien-male.png" )
+base_m.zoom(4).save( "./tmp2/alien-male@4x.png" )
+
+base_f = Punk::Sheet.find_by( name: 'Alien Female' )
+base_f.save( "./tmp2/alien-female.png" )
+base_f.zoom(4).save( "./tmp2/alien-female@4x.png" )
+
+
+
+__END__
 
 ###
 # humans
