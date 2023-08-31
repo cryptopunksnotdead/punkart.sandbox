@@ -69,7 +69,7 @@ types.each do |type|
     colors.each do |color_name, color|  
       punk_m = type.make( color, gender: 'm' )
       punk_m.save( "tmp3/#{name}-male_#{color_name}.png" )
-      punk_m.zoom(4).save( "tmp3/#{name}-male-#{color_name}@4x.png" )
+      punk_m.zoom(4).save( "tmp3/#{name}-male_#{color_name}@4x.png" )
 
       punk_f = type.make( color, gender: 'f' )
       punk_f.save( "tmp3/#{name}-female_#{color_name}.png" )
