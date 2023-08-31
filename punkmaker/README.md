@@ -11,6 +11,7 @@ punkmaker gem - make your own (pixel) punk base (archetype) heads incl. humans, 
 
 
 
+
 ## Usage
 
 Let's make golden punks...
@@ -29,16 +30,6 @@ punk_m.zoom(4).save( 'human-male_gold@4x.png' )
 punk_f = Punk::Human.make( GOLD, gender: 'f' )
 punk_f.save( 'human-female_gold.png' )
 punk_f.zoom(4).save( 'human-female_gold@4x.png' )
-
-###
-# mummies
-punk_m = Punk::Mummy.make( GOLD, gender: 'm' )
-punk_m.save( 'mummy-male_gold.png' )
-punk_m.zoom(4).save( 'mummy-male_gold@4x.png' )
-
-punk_f = Punk::Mummy.make( GOLD, gender: 'f' )
-punk_f.save( 'mummy-female_gold.png' )
-punk_f.zoom(4).save( 'mummy-female_gold@4x.png' )
 ```
 
 
@@ -57,6 +48,77 @@ Voila!
 
 ![](i/mummy-male_gold@4x.png)
 ![](i/mummy-female_gold@4x.png)
+
+
+
+Let's try some more base (arche)types:
+
+``` ruby
+types = [
+  Punk::Mummy,
+  Punk::Alien, 
+  Punk::Ape,
+  Punk::Skeleton,
+  Punk::Zombie,
+  Punk::Demon,
+  Punk::Orc,
+  Punk::Robot,
+  Punk::Vampire,   
+].each do |type|
+    ## get last name e.g. Orc from Punk::Orc
+    name = type.name.split('::')[-1].downcase
+  
+    punk_m = type.make( GOLD, gender: 'm' )
+    punk_m.save( "#{name}-male_gold.png" )
+    punk_m.zoom(4).save( "#{name}-male_gold@4x.png" )
+
+    punk_f = type.make( GOLD, gender: 'f' )
+    punk_f.save( "#{name}-female_gold.png" )
+    punk_f.zoom(4).save( "#{name}-female_gold@4x.png" )
+end
+```
+
+Voila!
+
+![](i/mummy-male_gold.png) 
+![](i/alien-male_gold.png) 
+![](i/ape-male_gold.png) 
+![](i/skeleton-male_gold.png) 
+![](i/zombie-male_gold.png) 
+![](i/demon-male_gold.png) 
+![](i/orc-male_gold.png) 
+![](i/robot-male_gold.png) 
+![](i/vampire-male_gold.png)  <br>
+![](i/mummy-female_gold.png)
+![](i/alien-female_gold.png) 
+![](i/ape-female_gold.png) 
+![](i/skeleton-female_gold.png) 
+![](i/zombie-female_gold.png) 
+![](i/demon-female_gold.png) 
+![](i/orc-female_gold.png) 
+![](i/robot-female_gold.png) 
+![](i/vampire-female_gold.png)
+
+4x
+
+![](i/mummy-male_gold@4x.png) 
+![](i/alien-male_gold@4x.png) 
+![](i/ape-male_gold@4x.png) 
+![](i/skeleton-male_gold@4x.png) 
+![](i/zombie-male_gold@4x.png) 
+![](i/demon-male_gold@4x.png) 
+![](i/orc-male_gold@4x.png) 
+![](i/robot-male_gold@4x.png) 
+![](i/vampire-male_gold@4x.png)  <br>
+![](i/mummy-female_gold@4x.png)
+![](i/alien-female_gold@4x.png) 
+![](i/ape-female_gold@4x.png) 
+![](i/skeleton-female_gold@4x.png) 
+![](i/zombie-female_gold@4x.png) 
+![](i/demon-female_gold@4x.png) 
+![](i/orc-female_gold@4x.png) 
+![](i/robot-female_gold@4x.png) 
+![](i/vampire-female_gold@4x.png)
 
 
 

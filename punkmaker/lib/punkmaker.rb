@@ -8,6 +8,14 @@ require_relative 'punkmaker/version'  ## let version always go first
 require_relative 'punkmaker/human'
 require_relative 'punkmaker/alien'
 require_relative 'punkmaker/mummy'
+require_relative 'punkmaker/ape'
+require_relative 'punkmaker/skeleton'
+require_relative 'punkmaker/zombie'
+require_relative 'punkmaker/demon'
+require_relative 'punkmaker/orc'
+require_relative 'punkmaker/robot'
+require_relative 'punkmaker/vampire'
+
 
 ## more hair (incl. beards & eyebrows)
 require_relative 'punkmaker/hair'

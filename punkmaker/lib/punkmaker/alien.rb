@@ -21,6 +21,7 @@ module Alien   ## make it a class - why? why not?
     punk
   end
 
+  
 def self.derive_color_map( color )
 
 # 2 pixels #f1ffff / rgb(241 255 255) - hsl(180° 100%  97%)  - lighter

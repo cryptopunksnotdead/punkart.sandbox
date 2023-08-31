@@ -15,9 +15,9 @@ DEEPPINK      =  '#ff1493'
 DEEPPURPLE    =  '#aa4399'
 
 
-RED    = '#ff0000'
-BLUE   = '#0000ff'
-ORANGE =  '#ffa500'
+# RED    = '#ff0000'
+# BLUE   = '#0000ff'
+# ORANGE =  '#ffa500'
 
 colors = {
   'gold'   =>  GOLD,
@@ -29,10 +29,18 @@ colors = {
 
 
 types = {
-  'human' => Punk::Human,
-  'mummy' => Punk::Mummy,
-  'alien' => Punk::Alien, 
+  'human'     => Punk::Human,
+  'mummy'     => Punk::Mummy,
+  'alien'     => Punk::Alien, 
+  'ape'       => Punk::Ape,
+  'skeleton'  => Punk::Skeleton,
+  'zombie'    => Punk::Zombie,
+  'demon'     => Punk::Demon,
+  'orc'       => Punk::Orc,
+  'robot'     => Punk::Robot,
+  'vampire'   => Punk::Vampire,
 }
+
 
 types.each do |type, type_class|
   colors.each do |name, color|
