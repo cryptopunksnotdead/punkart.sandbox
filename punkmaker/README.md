@@ -21,8 +21,6 @@ require 'punkmaker'
 
 GOLD  =  '#ffd700'
 
-###
-# humans
 punk_m = Punk::Human.make( GOLD,  gender: 'm' )
 punk_m.save( 'human-male_gold.png' )
 punk_m.zoom(4).save( 'human-male_gold@4x.png' )
