@@ -23,7 +23,7 @@ module Ape    ## make it a class - why? why not?
  end
   
   def self.derive_color_map( color )
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
    
     darkest = color
 

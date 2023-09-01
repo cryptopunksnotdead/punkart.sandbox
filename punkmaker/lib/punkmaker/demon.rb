@@ -24,7 +24,7 @@ module Demon    ## make it a class - why? why not?
   end
   
   def self.derive_color_map( color )
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
 
 # 134 pixels #850008 / rgb(133   0   8) - hsl(356° 100%  26%)  - base
 #   2 pixels #630006 / rgb( 99   0   6) - hsl(356° 100%  19%)  - darker

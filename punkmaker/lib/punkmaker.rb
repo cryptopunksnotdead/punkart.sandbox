@@ -4,6 +4,10 @@ require 'spritesheet'
 
 require_relative 'punkmaker/version'  ## let version always go first
 
+## support - move to ???
+require_relative 'punkmaker/colors'   ## ColorBundle (color by name lookup and mroe)
+require_relative 'punkmaker/skintone'
+
 ## more base / archetypes
 require_relative 'punkmaker/human'
 require_relative 'punkmaker/alien'

@@ -45,7 +45,7 @@ module Alien   ## make it a class - why? why not?
 ##   [1.0,s+0.10].min,
 ##   [1.0,l+0.25].min)
 
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
   
     hsv  = Color.to_hsv( color )
     # pp hsv
@@ -69,7 +69,7 @@ def self.derive_color_map( color )
 # 125 pixels #c8fbfb / rgb(200 251 251) - hsl(180°  86%  88%)   - base (use as base)
 #  6 pixels #9be0e0 / rgb(155 224 224) - hsl(180°  53%  74%)   - darker
 #  2 pixels #75bdbd / rgb(117 189 189) - hsl(180°  35%  60%)  - darkest
-color = Color.parse( color )  if color.is_a?( String )
+color = Color.from_hex( color )  if color.is_a?( String )
 base = color
 
 hsl  = Color.to_hsl( color )

@@ -22,7 +22,7 @@ module Punk
     end
 
     if eye_color
-      eye_color = Color.parse( eye_color )    if eye_color.is_a?( String )
+      eye_color = Color.from_hex( eye_color )    if eye_color.is_a?( String )
 
       if gender == 'm'
           punk[9,12]  = eye_color
@@ -37,7 +37,7 @@ module Punk
 
 
 def self.derive_color_map( color )
-   color = Color.parse( color )  if color.is_a?( String )
+   color = Color.from_hex( color )  if color.is_a?( String )
 
 # 385 pixels #000000 / rgb(  0   0   0) - hsl(  0°   0%   0%) - hsv(  0°   0%   0%) - α(  0%) - TRANSPARENT
 # 52 pixels #000000 / rgb(  0   0   0) - hsl(  0°   0%   0%) - hsv(  0°   0%   0%)           - BLACK

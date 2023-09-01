@@ -7,6 +7,30 @@ $LOAD_PATH.unshift( "./lib" )
 require 'punkmaker'
 
 
+[
+ 'albino',    # ye olde punks
+ 'dark',
+ 'monk10',    #  dr ellis monk
+ 'monk01',
+ 'orange',    # punk's not dead  
+ 'almond',
+ 'sienna',
+ 'a1',        # color me human
+].each do |skintone|
+  punk_m = Punk::Human.make( skintone,  gender: 'm' )
+  punk_m.save( "tmp5/human-male_#{skintone}.png" )
+  punk_m.zoom(4).save( "tmp5/human-male_#{skintone}@4x.png" )
+
+  punk_f = Punk::Human.make( skintone, gender: 'f' )
+  punk_f.save( "tmp5/human-female_#{skintone}.png" )
+  punk_f.zoom(4).save( "tmp5/human-female_#{skintone}@4x.png" )
+end
+
+
+
+__END__
+
+
 
 GOLD  =  '#ffd700'
 

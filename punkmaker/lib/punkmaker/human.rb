@@ -8,6 +8,25 @@ module Human   ## make it a class - why? why not?
   BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/human-female4.png" )
 
 
+
+  def self.parse_skintone( color )   ##  lookup skintone by name or rgb(a) hex string or integer "true color"
+    if color.is_a?( String ) 
+       Skintone[ color ] || Color.from_hex( color )  
+    else ## assume color is integer - assert - why? why not?
+       color
+    end
+  end
+
+  def self.parse_eye_color( color )
+    if color.is_a?( String )
+       Color.from_hex( color )
+    else
+       color
+    end
+  end
+
+
+
   def self.make( color=nil,
                  shine: true,
                  eye_color: nil,
@@ -18,14 +37,16 @@ module Human   ## make it a class - why? why not?
     ## note: make a copy of base 
     punk = Image.new( base.width, base.height )  
     punk.compose!( base )
+
     
-    if color    ## change skin tone (& eyebrows)?
-      color_map = derive_color_map( color )  
+    skintone = color ? parse_skintone( color ) : nil 
+    if skintone    ## change skin tone (& eyebrows)?
+      color_map = derive_color_map( skintone )  
       punk = punk.change_colors( color_map )
     end
 
     if eye_color    ## change eye color?
-       eye_color = Color.parse( eye_color )    if eye_color.is_a?( String )
+       eye_color = parse_eye_color( eye_color ) 
        if gender == 'm'
          punk[9,12]  = eye_color
          punk[14,12] = eye_color
@@ -37,7 +58,7 @@ module Human   ## make it a class - why? why not?
 
     if shine     ## add shine?
        # note: default shine color is white
-       shine_color =    color ? derive_shine( color ) : 0xffffffff
+       shine_color =   skintone ? derive_shine( skintone ) : 0xffffffff
        if gender == 'm'
          punk[9,7] = shine_color
          punk[8,8] = shine_color
@@ -51,7 +72,7 @@ module Human   ## make it a class - why? why not?
 
 
   def self.derive_shine( color )
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
   
     hsv  = Color.to_hsv( color )
     # pp hsv
@@ -75,7 +96,7 @@ module Human   ## make it a class - why? why not?
   ## def self.derive_skintone_colors( color  or base )  ???
 
   def self.derive_color_map( color )
-      color = Color.parse( color )  if color.is_a?( String )
+      color = Color.from_hex( color )  if color.is_a?( String )
 
       base = color
 

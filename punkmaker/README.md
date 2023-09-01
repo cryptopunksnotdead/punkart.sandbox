@@ -43,6 +43,76 @@ Voila!
 
 
 
+Let's try predefined skintone color names 
+(from 
+[ye olde punks](config/skintone/ye_olde_punks.csv), 
+[dr ellis monk](config/skintone/dr_ellis_monk.csv), 
+[punks not dead](config/skintone/punks_not_dead.csv), or 
+[color me human](config/skintone/color_me_human.csv)):
+
+
+``` ruby
+[
+ 'albino',    # ye olde punks
+ 'dark',
+ 'monk10',    #  dr ellis monk
+ 'monk01',
+ 'orange',    # punk's not dead  
+ 'almond',
+ 'sienna',
+ 'a1',        # color me human
+].each do |skintone|
+  punk_m = Punk::Human.make( skintone,  gender: 'm' )
+  punk_m.save( "human-male_#{skintone}.png" )
+  punk_m.zoom(4).save( "human-male_#{skintone}@4x.png" )
+
+  punk_f = Punk::Human.make( skintone, gender: 'f' )
+  punk_f.save( "human-female_#{skintone}.png" )
+  punk_f.zoom(4).save( "human-female_#{skintone}@4x.png" )
+end
+```
+
+
+Voila!
+
+![](i/human-male_albino.png)
+![](i/human-male_dark.png)
+![](i/human-male_monk10.png)
+![](i/human-male_monk01.png)
+![](i/human-male_orange.png)
+![](i/human-male_almond.png)
+![](i/human-male_sienna.png)
+![](i/human-male_a1.png) <br>
+![](i/human-female_albino.png)
+![](i/human-female_dark.png)
+![](i/human-female_monk10.png)
+![](i/human-female_monk01.png)
+![](i/human-female_orange.png)
+![](i/human-female_almond.png)
+![](i/human-female_sienna.png)
+![](i/human-female_a1.png)
+
+4x
+
+![](i/human-male_albino@4x.png)
+![](i/human-male_dark@4x.png)
+![](i/human-male_monk10@4x.png)
+![](i/human-male_monk01@4x.png)
+![](i/human-male_orange@4x.png)
+![](i/human-male_almond@4x.png)
+![](i/human-male_sienna@4x.png)
+![](i/human-male_a1@4x.png) <br>
+![](i/human-female_albino@4x.png)
+![](i/human-female_dark@4x.png)
+![](i/human-female_monk10@4x.png)
+![](i/human-female_monk01@4x.png)
+![](i/human-female_orange@4x.png)
+![](i/human-female_almond@4x.png)
+![](i/human-female_sienna@4x.png)
+![](i/human-female_a1@4x.png)
+
+
+
 Let's try some more base (arche)types:
 
 ``` ruby

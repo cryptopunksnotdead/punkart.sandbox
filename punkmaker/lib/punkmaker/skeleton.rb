@@ -22,7 +22,7 @@ module Skeleton    ## make it a class - why? why not?
   end
   
   def self.derive_color_map( color )
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
   
 # 122 pixels #e0e0e0 / rgb(224 224 224) - hsl(  0°   0%  88%)           - 8-BIT GRAYSCALE #224
 

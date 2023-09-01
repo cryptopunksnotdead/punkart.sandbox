@@ -18,6 +18,10 @@ config/robot-female.png
 config/robot-male.png
 config/skeleton-female.png
 config/skeleton-male.png
+config/skintone/color_me_human.csv
+config/skintone/dr_ellis_monk.csv
+config/skintone/punks_not_dead.csv
+config/skintone/ye_olde_punks.csv
 config/vampire-female.png
 config/vampire-male.png
 config/zombie-female.png
@@ -25,6 +29,7 @@ config/zombie-male.png
 lib/punkmaker.rb
 lib/punkmaker/alien.rb
 lib/punkmaker/ape.rb
+lib/punkmaker/colors.rb
 lib/punkmaker/demon.rb
 lib/punkmaker/hair.rb
 lib/punkmaker/human.rb
@@ -32,6 +37,7 @@ lib/punkmaker/mummy.rb
 lib/punkmaker/orc.rb
 lib/punkmaker/robot.rb
 lib/punkmaker/skeleton.rb
+lib/punkmaker/skintone.rb
 lib/punkmaker/vampire.rb
 lib/punkmaker/version.rb
 lib/punkmaker/zombie.rb

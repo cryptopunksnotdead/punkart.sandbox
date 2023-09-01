@@ -42,7 +42,7 @@ module Zombie    ## make it a class - why? why not?
 ##   [1.0,s+0.10].min,
 ##   [1.0,l+0.25].min)
 
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
   
     hsv  = Color.to_hsv( color )
     # pp hsv
@@ -60,7 +60,7 @@ module Zombie    ## make it a class - why? why not?
 
   
   def self.derive_color_map( color )
-    color = Color.parse( color )  if color.is_a?( String )
+    color = Color.from_hex( color )  if color.is_a?( String )
 
 #    2 pixels #9bbc88 / rgb(155 188 136) - hsl( 98°  28%  64%)  - lighter
 #  125 pixels #7da269 / rgb(125 162 105) - hsl( 99°  23%  52%) - base  (use as base)
