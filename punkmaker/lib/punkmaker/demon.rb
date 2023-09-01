@@ -6,17 +6,21 @@ module Demon    ## make it a class - why? why not?
   BASE_M = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/demon-male.png" )
   BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/demon-female.png" )
         
-  def self.make( color,
+  def self.make( color=nil,
                    gender: 'm'  )
-      color_map = derive_color_map( color )
-  
-      punk = nil
-      if gender == 'm'
-          punk = BASE_M.change_colors( color_map )
-      else
-          punk = BASE_F.change_colors( color_map )
-      end
-      punk
+       base =   gender == 'm' ? BASE_M : BASE_F
+
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )
+    
+    if color   
+      color_map = derive_color_map( color )  
+      punk = punk.change_colors( color_map )
+    end
+
+    punk
+                
   end
   
   def self.derive_color_map( color )

@@ -8,44 +8,71 @@ module Human   ## make it a class - why? why not?
   BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/human-female4.png" )
 
 
-  def self.make( color,
+  def self.make( color=nil,
+                 shine: true,
                  eye_color: nil,
                  gender: 'm'  )
-    color_map = derive_color_map( color )
 
-    eye_color = Color.parse( eye_color )    if eye_color && eye_color.is_a?( String )
+    base =   gender == 'm' ? BASE_M : BASE_F
 
-    punk = nil
-    if gender == 'm'
-      punk = BASE_M.change_colors( color_map )
-      punk[10,12] = Color::WHITE     # left eye dark-ish pixel to white
-      punk[15,12] = Color::WHITE     # right eye ---
-      if eye_color
-        punk[9,12]  = eye_color
-        punk[14,12] = eye_color
-      end
-    else  ## assume 'f'
-      ## for female - change lips to all black (like in male for now) - why? why not?
-      color_map[ '#711010' ] = '#000000'
-      punk = BASE_F.change_colors( color_map )
-      punk[10,13] = Color::WHITE     # left eye dark-ish pixel to white
-      punk[15,13] = Color::WHITE     # right eye ---
-      if eye_color
-        punk[9,13] = eye_color
-        punk[14,13] = eye_color
-      end
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )
+    
+    if color    ## change skin tone (& eyebrows)?
+      color_map = derive_color_map( color )  
+      punk = punk.change_colors( color_map )
+    end
+
+    if eye_color    ## change eye color?
+       eye_color = Color.parse( eye_color )    if eye_color.is_a?( String )
+       if gender == 'm'
+         punk[9,12]  = eye_color
+         punk[14,12] = eye_color
+       else
+         punk[9,13] = eye_color
+         punk[14,13] = eye_color
+       end
+    end
+
+    if shine     ## add shine?
+       # note: default shine color is white
+       shine_color =    color ? derive_shine( color ) : 0xffffffff
+       if gender == 'm'
+         punk[9,7] = shine_color
+         punk[8,8] = shine_color
+       else 
+         punk[9,9] = shine_color
+      end   
     end
 
     punk
   end
 
 
+  def self.derive_shine( color )
+    color = Color.parse( color )  if color.is_a?( String )
+  
+    hsv  = Color.to_hsv( color )
+    # pp hsv
+
+    h, s, v = hsv
+    h = h % 360   # make always positive (might be -50 or such)
+    ## pp [h,s,v]
+
+    ## add extra saturation if v(alue) / brightness is max 1.0 - why? why not?
+    sdiff = v >= 0.99 ? 0.25 : 0.15
+
+    lighter =  Color.from_hsv( h, [0.0, s-sdiff].max, [v+0.1,1.0].min )  
+    lighter
+  end
+ 
+
   ##
   ## todo/check:
   ##  add a derive_colors or dervice_skintones  method - why? why not?
   ##    - change to name skintone_palette - why? why not?
   ## def self.derive_skintone_colors( color  or base )  ???
-
 
   def self.derive_color_map( color )
       color = Color.parse( color )  if color.is_a?( String )
@@ -59,28 +86,16 @@ module Human   ## make it a class - why? why not?
       h = h % 360   # make always positive (might be -50 or such)
       pp [h,s,l]
 
-      darker   = Color.from_hsl(
-        h,
-        [0.0, s-0.05].max,
-        [0.14, l-0.1].max)
-
       ## sub one degree on hue on color wheel (plus +10% on lightness??)
-      darkest = Color.from_hsl(
-                     (h-1) % 360,
+      ## darker
+      eyebrows = Color.from_hsl(
+                     h,
                      s,
                      [0.05, l-0.1].max)
 
-
-      lighter = Color.from_hsl(
-                      (h+1) % 360,
-                      s,
-                      [1.0, l+0.1].min)
-
       color_map = {
          '#ead9d9'  =>   base,
-         '#ffffff'  =>   lighter,
-         '#a58d8d'  =>   darkest,
-         '#c9b2b2'  =>   darker
+         '#a58d8d'  =>   eyebrows,
       }
       color_map
   end

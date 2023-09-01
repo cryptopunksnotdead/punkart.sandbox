@@ -7,29 +7,34 @@ module Punk
     BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/mummy-female.png" )
 
 
-    def self.make( color,
+    def self.make( color=nil,
                    eye_color: nil,
                    gender: 'm'  )
-      color_map = derive_color_map( color )
+     base =   gender == 'm' ? BASE_M : BASE_F
 
-      eye_color = Color.parse( eye_color )    if eye_color && eye_color.is_a?( String )
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )
+    
+    if color    
+      color_map = derive_color_map( color )  
+      punk = punk.change_colors( color_map )
+    end
 
-      punk = nil
+    if eye_color
+      eye_color = Color.parse( eye_color )    if eye_color.is_a?( String )
+
       if gender == 'm'
-        punk = BASE_M.change_colors( color_map )
-        if eye_color
           punk[9,12]  = eye_color
           punk[14,12] = eye_color
-        end
       else ## assume 'f'
-        punk = BASE_F.change_colors( color_map )
-        if eye_color
           punk[10,13] = eye_color   ## note: eye pos +1 pix!!
           punk[14,13] = eye_color
-        end
       end
-      punk
     end
+    punk
+  end
+
 
 def self.derive_color_map( color )
    color = Color.parse( color )  if color.is_a?( String )

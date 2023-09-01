@@ -8,18 +8,59 @@ module Alien   ## make it a class - why? why not?
   BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/alien-female.png" )
   
   
-  def self.make( color,
+  def self.make( color=nil,
+                 shine: true,
                  gender: 'm'  )
-    color_map = derive_color_map( color )
 
-    punk = nil
-    if gender == 'm'
-        punk = BASE_M.change_colors( color_map )
-    else
-        punk = BASE_F.change_colors( color_map )
+    base =   gender == 'm' ? BASE_M : BASE_F
+
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )
+    
+    if color    ## change skin tone (& eyebrows)?
+      color_map = derive_color_map( color )  
+      punk = punk.change_colors( color_map )
     end
+
+   
+    if shine
+     shine_color =    color ? derive_shine( color ) : 0xf1ffffff
+     if gender == 'm'
+       punk[9,7] = shine_color
+       punk[8,8] = shine_color
+     else 
+       punk[9,9] = shine_color
+     end
+    end   
     punk
   end
+
+
+  def self.derive_shine( color )
+## was before - reuse old formula- why? why not?
+## todo/check - check "formula" used in skintones script for humans!!!
+## lighter = Color.from_hsl(
+##   (h+1)%360,   # todo/check: make lighter by -1 on hue? or +1????
+##   [1.0,s+0.10].min,
+##   [1.0,l+0.25].min)
+
+    color = Color.parse( color )  if color.is_a?( String )
+  
+    hsv  = Color.to_hsv( color )
+    # pp hsv
+
+    h, s, v = hsv
+    h = h % 360   # make always positive (might be -50 or such)
+    ## pp [h,s,v]
+
+    ## add extra saturation if v(alue) / brightness is max 1.0 - why? why not?
+    sdiff = v >= 0.99 ? 0.35 : 0.25
+
+    lighter =  Color.from_hsv( h, [0.0, s-sdiff].max, [v+0.1,1.0].min )  
+    lighter
+  end
+
 
   
 def self.derive_color_map( color )
@@ -38,12 +79,6 @@ h, s, l = hsl
 h = h % 360   # make always positive (might be -50 or such)
 pp [h,s,l]
 
-## todo/check - check "formula" used in skintones script for humans!!!
-lighter = Color.from_hsl(
-   (h+1)%360,   # todo/check: make lighter by -1 on hue? or +1????
-   [1.0,s+0.10].min,
-   [1.0,l+0.25].min)
-
 
 darker = Color.from_hsl(
   h,
@@ -58,7 +93,6 @@ darkest = Color.from_hsl(
 
 color_map = {
     '#c8fbfb' =>  base,
-    '#f1ffff' => lighter,
     '#9be0e0' => darker,
     '#75bdbd' => darkest,
 }
