@@ -10,7 +10,7 @@ require 'punkmaker'
 [
  'albino',    # ye olde punks
  'dark',
- 'monk10',    #  dr ellis monk
+ 'monk10',    # dr ellis monk
  'monk01',
  'orange',    # punk's not dead  
  'almond',
@@ -28,7 +28,6 @@ end
 
 
 
-__END__
 
 
 
