@@ -1,0 +1,16 @@
+color,     names
+
+0x000000,  black
+0x51360c,  brown       # (darker) brown
+0xa66e2c,  brunette    # lighter brown
+      
+0xe65700,  orange
+0xe22626,  red  
+0xff8ebe,  pink  
+0x710cc7,  purple  
+
+0x28b143,  green
+      
+0xfff68e,  blonde
+0xe0e0e0,  silver
+0xffffff,  white

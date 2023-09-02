@@ -1,17 +1,43 @@
 #################################
 # to run use:
 #
-#  $ ruby sandbox/skintones.rb
+#  $ ruby sandbox/colors.rb
 
 $LOAD_PATH.unshift( "./lib" )
 require 'punkmaker'
 
-pp Punk::Skintone.bundle
+pp Punk::Skintone.colors
+
+puts Color.fmt( Punk::Skintone.colors[ '1' ] )
+puts Color.fmt( Punk::Skintone.colors[ 'mid' ] )
+puts Color.fmt( Punk::Skintone.colors[ 'dark' ] )
+pp Punk::Skintone.colors[ 'xxx' ]
 
 puts Color.fmt( Punk::Skintone[ '1' ] )
 puts Color.fmt( Punk::Skintone[ 'mid' ] )
 puts Color.fmt( Punk::Skintone[ 'dark' ] )
 pp Punk::Skintone[ 'xxx' ]
+
+
+pp Punk::Eyes.colors
+
+puts Color.fmt( Punk::Eyes.colors[ 'blue' ] )
+puts Color.fmt( Punk::Eyes.colors[ 'green' ] )
+puts Color.fmt( Punk::Eyes.colors[ 'brown' ] )
+pp Punk::Eyes.colors[ 'yellow' ]
+
+puts Color.fmt( Punk::Eyes[ 'b' ] )
+puts Color.fmt( Punk::Eyes[ 'g' ] )
+puts Color.fmt( Punk::Eyes[ 'r' ] )
+pp Punk::Eyes[ 'yellow' ]
+
+
+pp Punk::Hair.colors
+
+puts Color.fmt( Punk::Hair[ 'blonde' ] )
+puts Color.fmt( Punk::Hair[ 'brunette' ] )
+puts Color.fmt( Punk::Hair[ 'pink' ] )
+pp Punk::Hair[ 'yellow' ]
 
 
 __END__

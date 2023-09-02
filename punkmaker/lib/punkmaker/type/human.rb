@@ -19,12 +19,21 @@ module Human   ## make it a class - why? why not?
 
   def self.parse_eye_color( color )
     if color.is_a?( String )
-       Color.from_hex( color )
+       Eyes[ color ] || Color.from_hex( color )
     else
        color
     end
   end
 
+
+  def self.base( gender: 'm' )
+    base =  gender == 'm' ? BASE_M : BASE_F
+
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )  
+    punk
+  end
 
 
   def self.make( color=nil,
@@ -32,12 +41,7 @@ module Human   ## make it a class - why? why not?
                  eye_color: nil,
                  gender: 'm'  )
 
-    base =   gender == 'm' ? BASE_M : BASE_F
-
-    ## note: make a copy of base 
-    punk = Image.new( base.width, base.height )  
-    punk.compose!( base )
-
+    punk =  base( gender: gender )
     
     skintone = color ? parse_skintone( color ) : nil 
     if skintone    ## change skin tone (& eyebrows)?

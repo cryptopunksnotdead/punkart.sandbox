@@ -7,17 +7,23 @@ module Alien   ## make it a class - why? why not?
   BASE_M = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/alien-male.png" )
   BASE_F = Image.read( "#{Pixelart::Module::Punkmaker.root}/config/alien-female.png" )
   
+
+  def self.base( gender: 'm' )
+    base =  gender == 'm' ? BASE_M : BASE_F
+
+    ## note: make a copy of base 
+    punk = Image.new( base.width, base.height )  
+    punk.compose!( base )  
+    punk
+  end
+
   
   def self.make( color=nil,
                  shine: true,
                  gender: 'm'  )
 
-    base =   gender == 'm' ? BASE_M : BASE_F
-
-    ## note: make a copy of base 
-    punk = Image.new( base.width, base.height )  
-    punk.compose!( base )
-    
+    punk = base( gender: gender )  ## get base image (as a copy to modify)
+                 
     if color    ## change skin tone (& eyebrows)?
       color_map = derive_color_map( color )  
       punk = punk.change_colors( color_map )

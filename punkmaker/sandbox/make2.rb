@@ -10,11 +10,25 @@ GOLD          =  '#ffd700'
 DEEPPINK      =  '#ff1493'
 
 punks = [
+ Punk::Human.base,
+ Punk::Human.base( gender: 'f' ),
+
+ Punk::Human.make( GOLD, eye_color: 'blue' ),
+ Punk::Human.make( GOLD, eye_color: 'green' ),
+ Punk::Human.make( GOLD, eye_color: 'brown' ),
+ Punk::Human.make( GOLD, eye_color: 'purple' ),
+ Punk::Human.make( GOLD, eye_color: 'red' ),
+ Punk::Human.make( DEEPPINK, gender: 'f', eye_color: 'blue' ),
+ Punk::Human.make( DEEPPINK, gender: 'f', eye_color: 'green' ),
+ Punk::Human.make( DEEPPINK, gender: 'f', eye_color: 'brown' ),
+ Punk::Human.make( DEEPPINK, gender: 'f', eye_color: 'purple' ),
+ Punk::Human.make( DEEPPINK, gender: 'f', eye_color: 'red' ),
+
  Punk::Human.make,
  Punk::Human.make( shine: false ), 
  Punk::Human.make( gender: 'f' ),
  Punk::Human.make( gender: 'f', shine: false ),   
-
+ 
  Punk::Human.make( GOLD ),
  Punk::Human.make( GOLD, shine: false ), 
  Punk::Human.make( GOLD, gender: 'f' ),

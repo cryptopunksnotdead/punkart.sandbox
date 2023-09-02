@@ -2,34 +2,15 @@
 
 module Punk
   module Hair
-   def self.colors
-      @colors ||= begin
-                    {
-        'black'  => '000000',
-      
-        'brown'     => '51360c',   # (darker) brown
-        'brunette'  => 'a66e2c',   # lighter brown
-      
-        'orange'  => 'e65700',
-        'red'     => 'e22626',
-        'pink'    => 'ff8ebe',
-        'purple'  => '710cc7',
-      
-        'green'   => '28b143',
-      
-        'blonde' => 'fff68e',
-        'silver' => 'e0e0e0',
-        'white'  => 'FFFFFF',
-      }.reduce( {} ) do |h, (name, color_hex)|
-         h[ name ] = Color.from_hex( color_hex )
-         h
-        end
-      end
-      @colors
+    def self.colors
+      @colors ||= ColorBundle.read( './config/colors/hair.csv' )
     end
+    def self.[]( name )  colors.find_by( name: name ); end
+
+
 
     def self.derive_color_map( color )
-        color = Color.parse( color )  if color.is_a?( String )
+        color = Color.from_hex( color )  if color.is_a?( String )
   
             h,s,v = Color.to_hsv( color, include_alpha: false )
             h = h % 360    ## make sure h(ue) is always positive!!!
@@ -98,6 +79,7 @@ module Punk
              end
         def find_by( name: )  @sheet.find_by( name: name ); end
          
+
         def make( style, color: 'black' )   ## change name to colorize - why? why not?
             ## pass-through  shavedhead (no colors - alpha only) - why? why not?
             hair = @sheet.find_by( name: style )
@@ -106,15 +88,18 @@ module Punk
               exit 1
             end
      
-            color_key = color.downcase.gsub(' ','')
-            rgba  = @colors[ color_key ]
-            if rgba.nil?
-             puts "!! ERROR - unknow hair color >#{style}<; sorry"
-             exit 1
-            end
-     
-            color_map = Hair.derive_color_map( rgba )
+            color = parse_hair_color( color )
+
+            color_map = Hair.derive_color_map( color )
             hair.change_colors( color_map )
+        end
+
+        def parse_hair_color( color )
+          if color.is_a?( String ) 
+            @colors[ color ] || Color.from_hex( color )  
+          else ## assume color is integer - assert - why? why not?
+            color
+          end      
         end
     end  ## (embedded) class Maker
   end # module Hair
